@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090b13"><title>StandDrop — открывай кейсы</title>
+<style>
+:root{--bg:#090b13;--panel:#121725;--panel2:#192235;--line:#28334a;--txt:#f4f6ff;--muted:#98a4bd;--violet:#895cff;--cyan:#35d7d0;--gold:#ffc86b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% -10%,#30205b 0,transparent 34%),var(--bg);color:var(--txt);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+button,input{font:inherit}button{border:0;cursor:pointer;color:white;font-weight:700;border-radius:12px;padding:12px 16px;background:linear-gradient(100deg,var(--violet),#5c7bff)}button:disabled{opacity:.4;cursor:not-allowed}
+header{position:sticky;top:0;z-index:3;background:#0b0e18ed;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.wrap{max-width:1100px;margin:auto;padding:0 18px}.top{height:70px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:22px;font-weight:950;letter-spacing:.5px}.brand span{color:var(--cyan)}.balance{background:var(--panel2);border:1px solid var(--line);border-radius:30px;padding:9px 14px;font-weight:800;color:var(--gold)}
+nav{display:flex;gap:8px;overflow:auto;padding:0 0 12px}nav button{white-space:nowrap;background:transparent;border:1px solid var(--line);padding:8px 13px;color:var(--muted)}nav button.active{background:#30234f;color:#fff;border-color:#7654ce}
+main{padding:28px 0 60px}.hero{padding:28px;border:1px solid #40336b;border-radius:22px;background:linear-gradient(120deg,#21183b,#131b2d 65%,#102c36);margin-bottom:25px}.eyebrow{color:var(--cyan);font-weight:800;text-transform:uppercase;font-size:12px;letter-spacing:1.4px}.hero h1{font-size:clamp(28px,6vw,48px);line-height:1.05;margin:10px 0}.hero p{color:#bdc5d9;max-width:620px}.section-head{display:flex;align-items:center;justify-content:space-between;margin:24px 0 14px}.section-head h2{margin:0;font-size:22px}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}.card{background:linear-gradient(160deg,#182136,#101522);border:1px solid var(--line);border-radius:18px;padding:17px;min-width:0}.case-art{height:120px;border-radius:14px;display:grid;place-items:center;font-size:55px;background:radial-gradient(circle,#6147a8,#202b48 70%);margin-bottom:14px}.case-art.green{background:radial-gradient(circle,#247b72,#1d3344 70%)}.case-art.gold{background:radial-gradient(circle,#9b692d,#3b2b31 70%)}.card h3{margin:0 0 4px}.price{color:var(--gold);font-weight:900;margin:10px 0}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.small{font-size:12px;color:var(--muted)}.hidden{display:none!important}.notice{border:1px solid #58472a;background:#2a2115;color:#ffe0a6;border-radius:12px;padding:12px;margin:16px 0;font-size:13px}.result{margin-top:15px;padding:15px;border-radius:14px;background:#0d1422;border:1px solid var(--line);text-align:center}.result strong{font-size:20px;color:var(--cyan)}.formline{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.formline input{flex:1;min-width:130px;background:#0c1220;color:white;border:1px solid var(--line);border-radius:10px;padding:11px}.item{display:flex;align-items:center;gap:12px}.item .emoji{font-size:30px}.empty{padding:25px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px}
+footer{border-top:1px solid var(--line);padding:20px 0;color:var(--muted);font-size:12px}
+@media(max-width:520px){.hero{padding:20px}.top{height:62px}.brand{font-size:19px}.grid{grid-template-columns:1fr 1fr}.card{padding:12px}.case-art{height:90px;font-size:42px}.card button{width:100%;padding:10px 8px;font-size:13px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+ <div class="top"><div class="brand">STAND<span>DROP</span></div><div class="balance">🪙 <b id="balance">10 000</b> G</div></div>
+ <nav>
+  <button class="active" data-tab="cases">Кейсы</button><button data-tab="roulette">Рулетка</button><button data-tab="battle">Кейс-батлы</button><button data-tab="inventory">Инвентарь</button><button data-tab="bonus">Бонусы и промокоды</button>
+ </nav>
+</div></header>
+<main class="wrap">
+ <section class="hero"><div class="eyebrow">виртуальная игровая площадка</div><h1>Открывай. Собирай.<br>Побеждай.</h1><p>Добро пожаловать в StandDrop. Испытай удачу в демо-кейсах, собирай коллекцию и участвуй в игровых режимах.</p><div class="small">Тестовая версия • прогресс сохраняется в этом браузере</div></section>
+ <section id="cases" class="tab">
+  <div class="section-head"><h2>Выбери кейс</h2><span class="muted small">3 кейса доступны</span></div>
+  <div class="grid" id="caseGrid"></div><div id="caseResult"></div>
+ </section>
+ <section id="roulette" class="tab hidden">
+  <div class="section-head"><h2>Рулетка</h2><span class="muted">Стоимость: 250 G</span></div>
+  <div class="card"><div class="case-art">🎡</div><p class="muted">Запусти виртуальную рулетку и получи случайную награду.</p><button id="spin">Крутить за 250 G</button><div id="rouletteResult"></div></div>
+ </section>
+ <section id="battle" class="tab hidden">
+  <div class="section-head"><h2>Кейс-батл</h2><span class="muted">Демо-режим против бота</span></div>
+  <div class="card"><div class="case-art green">⚔️</div><p>Ты и бот открываете по одному кейсу за раунд. Побеждает тот, у кого выше суммарная стоимость предметов.</p><button id="battleBtn">Начать батл · 500 G</button><div id="battleResult"></div></div>
+ </section>
+ <section id="inventory" class="tab hidden"><div class="section-head"><h2>Мой инвентарь</h2><span id="invCount" class="muted">0 предметов</span></div><div id="inventoryList"></div></section>
+ <section id="bonus" class="tab hidden">
+  <div class="section-head"><h2>Бонусы</h2></div><div class="grid">
+   <div class="card"><div class="case-art green">🎁</div><h3>Ежедневный бонус</h3><p class="muted">Получай 1 000 G раз в сутки.</p><button id="dailyBtn">Забрать бонус</button><div id="dailyMsg" class="small"></div></div>
+   <div class="card"><div class="case-art gold">🎟️</div><h3>Промокод</h3><p class="muted">Попробуй тестовый код DROP100.</p><div class="formline"><input id="promoInput" placeholder="Введи промокод"><button id="promoBtn">Активировать</button></div><div id="promoMsg" class="small"></div></div>
+  </div>
+  <div class="notice">Это только демонстрационная виртуальная экономика. Нет платежей, вывода денег или реальных предметов.</div>
+ </section>
+ <div class="notice">StandDrop Demo: баланс и предметы хранятся только в локальном хранилище этого браузера. Это не настоящие аккаунты и не общий онлайн-сервер.</div>
+</main>
+<footer><div class="wrap">© 2026 StandDrop • Неофициальный демонстрационный проект. Не связан с разработчиками Standoff 2.</div></footer>
+<script>
+const cases=[
+ {id:'start',name:'Стартовый кейс',price:100,emoji:'📦',cls:'',items:[['🔫','P350 «Forest»',90],['🔪','M9 «Pixel»',180],['🎯','Sticker «Drop»',120],['🧤','Gloves «Neon»',350]]},
+ {id:'neon',name:'Неоновый кейс',price:500,emoji:'💎',cls:'green',items:[['🔫','AKR «Neon»',420],['🗡️','Karambit «Wave»',900],['🧤','Gloves «Pulse»',700],['⭐','Rare Drop',1400]]},
+ {id:'gold',name:'Золотой кейс',price:1500,emoji:'👑',cls:'gold',items:[['🔫','M4 «Royal»',1200],['🔪','Knife «Gold»',2600],['🧤','Gloves «Crown»',3200],['🌟','Legendary Drop',5000]]}
+];
+let state=JSON.parse(localStorage.getItem('standdrop_demo')||'null')||{balance:10000,inventory:[],daily:'',promos:[]};
+function save(){localStorage.setItem('standdrop_demo',JSON.stringify(state));render()}
+function money(n){return Math.round(n).toLocaleString('ru-RU')}
+function render(){document.getElementById('balance').textContent=money(state.balance);document.getElementById('caseGrid').innerHTML=cases.map(c=>`<div class="card"><div class="case-art ${c.cls}">${c.emoji}</div><h3>${c.name}</h3><div class="small">Возможные награды: ${c.items.length}</div><div class="price">${money(c.price)} G</div><button onclick="openCase('${c.id}')">Открыть кейс</button></div>`).join('');let inv=document.getElementById('inventoryList');document.getElementById('invCount').textContent=state.inventory.length+' предметов';inv.innerHTML=state.inventory.length?'<div class="grid">'+state.inventory.slice().reverse().map(x=>`<div class="card item"><span class="emoji">${x[0]}</span><div><b>${x[1]}</b><div class="small">${money(x[2])} G</div></div></div>`).join('')+'</div>':'<div class="empty">Пока пусто. Открой первый кейс!</div>';document.getElementById('dailyBtn').disabled=state.daily===new Date().toDateString()}
+function reward(items){return items[Math.floor(Math.random()*items.length)]}
+function openCase(id){let c=cases.find(x=>x.id===id);if(state.balance<c.price)return show('caseResult','Недостаточно монет. Забери ежедневный бонус.');state.balance-=c.price;let item=reward(c.items);state.inventory.push(item);save();show('caseResult',`<div class="result">Выпало: <strong>${item[0]} ${item[1]}</strong><br>Стоимость: ${money(item[2])} G</div>`)}
+function show(id,html){document.getElementById(id).innerHTML=html}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('hidden',x.id!==b.dataset.tab))}));
+document.getElementById('dailyBtn').onclick=()=>{if(state.daily===new Date().toDateString())return;state.daily=new Date().toDateString();state.balance+=1000;save();document.getElementById('dailyMsg').textContent='Бонус +1 000 G получен!'};
+document.getElementById('promoBtn').onclick=()=>{let code=document.getElementById('promoInput').value.trim().toUpperCase(),msg=document.getElementById('promoMsg');if(code!=='DROP100')msg.textContent='Промокод не найден.';else if(state.promos.includes(code))msg.textContent='Этот код уже использован.';else{state.promos.push(code);state.balance+=100;save();msg.textContent='Успешно! +100 G'}};
+document.getElementById('spin').onclick=()=>{if(state.balance<250)return show('rouletteResult','Недостаточно монет.');state.balance-=250;let it=reward(cases[1].items);state.inventory.push(it);save();show('rouletteResult',`<div class="result">🎉 Выпало: <strong>${it[0]} ${it[1]}</strong><br>${money(it[2])} G</div>`)};
+document.getElementById('battleBtn').onclick=()=>{if(state.balance<500)return show('battleResult','Недостаточно монет.');state.balance-=500;let you=reward(cases[0].items),bot=reward(cases[0].items);state.inventory.push(you);if(you[2]>=bot[2]){state.balance+=850;show('battleResult',`<div class="result">Ты: ${you[1]} (${you[2]} G)<br>Бот: ${bot[1]} (${bot[2]} G)<br><strong>Победа! +850 G</strong></div>`)}else show('battleResult',`<div class="result">Ты: ${you[1]} (${you[2]} G)<br>Бот: ${bot[1]} (${bot[2]} G)<br><strong>Бот победил. Попробуй ещё!</strong></div>`);save()};
+render();
+</script></body></html>
